@@ -100,7 +100,7 @@ public class RecordWriterOutput<OUT> implements WatermarkGaugeExposingOutput<Str
     private <X> void pushToRecordWriter(StreamRecord<X> record) {
         // record could've been generated somewhere in the pipeline even though an IDLE status was
         // emitted. It might've originated from a timer or just a wrong behaving operator
-        try (AutoCloseable ignored = announcedStatus.ensureActive(this::writeStreamStatus)) {
+        try /*(AutoCloseable ignored = announcedStatus.ensureActive(this::writeStreamStatus))*/ {
             serializationDelegate.setInstance(record);
             recordWriter.emit(serializationDelegate);
         } catch (Exception e) {
